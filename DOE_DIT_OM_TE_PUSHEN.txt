@@ -1,0 +1,53 @@
+═══════════════════════════════════════════════════════════════
+  🚀 PUSH ALLES NAAR GITHUB - SIMPELE INSTRUCTIES
+═══════════════════════════════════════════════════════════════
+
+Het probleem is dat je GitHub authenticatie niet de juiste 
+permissions heeft. Volg deze stappen:
+
+STAP 1: Authenticeer GitHub CLI opnieuw
+─────────────────────────────────────────
+Open Terminal en typ:
+
+gh auth login
+
+Kies:
+1. GitHub.com
+2. HTTPS  
+3. Login with a web browser
+4. Volg de instructies in je browser
+5. Zorg dat je ALLE permissions toestaat (vooral "repo")
+
+STAP 2: Push
+────────────
+Nadat je bent ingelogd, typ:
+
+cd /Users/aminezerouali/Herd/mangaverse
+git push -u origin main
+
+Dit zou nu moeten werken!
+
+═══════════════════════════════════════════════════════════════
+
+ALTERNATIEF: Gebruik Token Direct
+──────────────────────────────────
+Als GitHub CLI niet werkt:
+
+1. Ga naar: https://github.com/settings/tokens
+2. Maak nieuwe token met "repo" scope
+3. In Terminal:
+
+cd /Users/aminezerouali/Herd/mangaverse
+git push -u origin main
+
+Username: amizer05
+Password: [plak je token]
+
+═══════════════════════════════════════════════════════════════
+
+
+
+
+
+
+

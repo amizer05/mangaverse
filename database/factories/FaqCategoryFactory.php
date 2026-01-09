@@ -39,3 +39,4 @@ class FaqCategoryFactory extends Factory
 
 
 
+
