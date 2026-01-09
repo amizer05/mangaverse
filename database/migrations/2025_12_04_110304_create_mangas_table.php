@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('cover_image')->nullable();
             $table->text('description')->nullable();
             $table->date('release_date')->nullable();
+            $table->unsignedInteger('mal_id')->nullable()->index();
             $table->timestamps();
         });
     }

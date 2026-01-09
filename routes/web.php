@@ -23,8 +23,13 @@ Route::get('/app', function () {
 });
 
 Route::get('/', function () {
+    // Only show mangas with cover images
+    $mangaQuery = Manga::whereNotNull('cover_image')
+                       ->where('cover_image', '!=', '');
+
     // Featured manga (mix of popular and latest)
-    $featuredMangas = Manga::with(['chapters' => function($q) {
+    $featuredMangas = (clone $mangaQuery)
+        ->with(['chapters' => function($q) {
             $q->where('is_published', true);
         }])
         ->whereHas('chapters', function($q) {
@@ -36,13 +41,14 @@ Route::get('/', function () {
         })
         ->take(3)
         ->merge(
-            Manga::latest()->take(3)->get()
+            (clone $mangaQuery)->latest()->take(3)->get()
         )
         ->unique('id')
         ->take(6);
 
     // Popular manga (by chapter count)
-    $popularMangas = Manga::with(['chapters' => function($q) {
+    $popularMangas = (clone $mangaQuery)
+        ->with(['chapters' => function($q) {
             $q->where('is_published', true);
         }])
         ->whereHas('chapters', function($q) {
@@ -55,7 +61,7 @@ Route::get('/', function () {
         ->take(6);
 
     // Latest manga
-    $latestMangas = Manga::latest()->take(6)->get();
+    $latestMangas = (clone $mangaQuery)->latest()->take(6)->get();
 
     // Recent chapter updates
     $recentChapters = \App\Models\Chapter::with('manga')
@@ -64,8 +70,9 @@ Route::get('/', function () {
         ->take(6)
         ->get();
 
-    // Get unique genres
-    $genres = Manga::whereNotNull('genre')
+    // Get unique genres (only from mangas with covers)
+    $genres = (clone $mangaQuery)
+        ->whereNotNull('genre')
         ->distinct()
         ->pluck('genre')
         ->filter()
@@ -90,7 +97,9 @@ Route::get('/', function () {
 
 // Public contact form
 Route::get('/contact', [ContactController::class, 'create'])->name('contact.create');
-Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+Route::post('/contact', [ContactController::class, 'store'])
+    ->middleware('throttle:3,60') // 3 requests per 60 minutes
+    ->name('contact.store');
 
 // Public user profiles
 Route::get('/users/{username}', [UserProfileController::class, 'show'])->name('users.show');

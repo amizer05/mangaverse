@@ -55,3 +55,8 @@ class NewsFactory extends Factory
 
 
 
+
+
+
+
+

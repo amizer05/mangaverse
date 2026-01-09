@@ -14,16 +14,19 @@ class FaqController extends Controller
     {
         $query = $request->get('q', '');
         
-        $categories = FaqCategory::with(['faqItems' => function($q) use ($query) {
-            if ($query) {
-                $q->where('question', 'like', '%' . $query . '%')
-                  ->orWhere('answer', 'like', '%' . $query . '%');
-            }
-        }])->get();
-
-        // Filter out categories with no matching items if searching
+        // Get all categories with their items
+        $categories = FaqCategory::with('faqItems')->get();
+        
+        // If searching, filter items by query (case-insensitive)
         if ($query) {
-            $categories = $categories->filter(function($category) {
+            $searchQuery = strtolower($query);
+            $categories = $categories->map(function($category) use ($searchQuery) {
+                $category->faqItems = $category->faqItems->filter(function($item) use ($searchQuery) {
+                    return str_contains(strtolower($item->question), $searchQuery) || 
+                           str_contains(strtolower($item->answer), $searchQuery);
+                });
+                return $category;
+            })->filter(function($category) {
                 return $category->faqItems->count() > 0;
             });
         }

@@ -104,23 +104,12 @@
             <a href="{{ route('mangas.public.show', $manga->slug) }}" class="group">
                 <div class="relative overflow-hidden rounded-xl bg-slate-800 border border-slate-700 transition-all duration-300 transform group-hover:scale-105 group-hover:shadow-2xl group-hover:shadow-indigo-500/25 group-hover:border-indigo-500/50">
                     <!-- Cover Image -->
-                    <div class="aspect-[3/4] overflow-hidden relative">
-                        @if($manga->cover_image)
-                            <img src="{{ asset('storage/' . $manga->cover_image) }}" 
-                                 alt="{{ $manga->title }}" 
-                                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                                 loading="lazy"
-                                 onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'300\' height=\'400\'%3E%3Crect fill=\'%231e293b\' width=\'300\' height=\'400\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%2394a3b8\' font-family=\'Arial\' font-size=\'20\'%3E{{ urlencode($manga->title) }}%3C/text%3E%3C/svg%3E'">
-                        @else
-                            <div class="w-full h-full bg-gradient-to-br from-slate-700 to-slate-800 flex items-center justify-center">
-                                <div class="text-center p-4">
-                                    <svg class="w-16 h-16 text-slate-600 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                                    </svg>
-                                    <p class="text-slate-500 text-xs line-clamp-2">{{ $manga->title }}</p>
-                                </div>
-                            </div>
-                        @endif
+                    <div class="aspect-[3/4] overflow-hidden relative bg-slate-800">
+                        <img src="{{ $manga->cover_image_url }}" 
+                             alt="{{ $manga->title }}" 
+                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                             loading="lazy"
+                             onerror="this.onerror=null; this.src='{{ asset('images/default-manga-cover.svg') }}'">
                         <!-- New Badge (if recently added) -->
                         @if($manga->created_at && $manga->created_at->diffInDays(now()) < 7)
                         <div class="absolute top-2 right-2 px-2 py-1 bg-gradient-to-r from-indigo-500 to-rose-500 rounded-md text-xs font-bold text-white shadow-lg z-10">

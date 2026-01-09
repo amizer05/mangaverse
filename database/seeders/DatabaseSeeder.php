@@ -38,7 +38,25 @@ class DatabaseSeeder extends Seeder
             'is_admin' => false,
         ]);
 
-        // Create manga with realistic data
+        // Manual cover URLs for high-quality images (optional override)
+        // Format: 'slug' => 'https://direct-url-to-image.jpg'
+        // These are direct MyAnimeList CDN URLs for highest quality covers.
+        $manualCoverUrls = [
+            'naruto' => 'https://cdn.myanimelist.net/images/manga/2/253146.jpg',
+            'one-piece' => 'https://cdn.myanimelist.net/images/manga/3/55539.jpg',
+            'my-hero-academia' => 'https://cdn.myanimelist.net/images/manga/2/191057.jpg',
+            'demon-slayer' => 'https://cdn.myanimelist.net/images/manga/1/199351.jpg',
+            'attack-on-titan' => 'https://cdn.myanimelist.net/images/manga/2/37846.jpg',
+            'death-note' => 'https://cdn.myanimelist.net/images/manga/3/54437.jpg',
+            'dragon-ball-z' => 'https://cdn.myanimelist.net/images/manga/1/172262.jpg',
+            'bleach' => 'https://cdn.myanimelist.net/images/manga/3/249005.jpg',
+            'chainsaw-man' => 'https://cdn.myanimelist.net/images/manga/1/222794.jpg',
+            'jujutsu-kaisen' => 'https://cdn.myanimelist.net/images/manga/1/217014.jpg',
+            'spy-x-family' => 'https://cdn.myanimelist.net/images/manga/3/223001.jpg',
+            'one-punch-man' => 'https://cdn.myanimelist.net/images/manga/1/172262.jpg',
+        ];
+
+        // Create manga with realistic data and MAL IDs
         $mangas = [
             [
                 'title' => 'One Piece',
@@ -46,6 +64,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Monkey D. Luffy and his pirate crew explore the Grand Line in search of the world\'s ultimate treasure known as "One Piece" in order to become the next Pirate King. This epic adventure spans decades and features incredible world-building, memorable characters, and thrilling battles.',
                 'release_date' => '1997-07-22',
                 'cover_image' => 'manga-covers/one-piece.jpg',
+                'mal_id' => 13,
             ],
             [
                 'title' => 'Naruto',
@@ -53,6 +72,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Naruto Uzumaki, a young ninja who seeks recognition from his peers and dreams of becoming the Hokage, the leader of his village. Follow his journey as he trains, makes friends, and faces powerful enemies in this action-packed series.',
                 'release_date' => '1999-09-21',
                 'cover_image' => 'manga-covers/naruto.jpg',
+                'mal_id' => 11,
             ],
             [
                 'title' => 'Attack on Titan',
@@ -60,6 +80,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Humanity fights for survival against the terrifying Titans in this dark and intense series. Eren Yeager joins the military to avenge his mother and discover the truth behind the Titans\' existence.',
                 'release_date' => '2009-09-09',
                 'cover_image' => 'manga-covers/attack-on-titan.jpg',
+                'mal_id' => 23390,
             ],
             [
                 'title' => 'Demon Slayer',
@@ -67,6 +88,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'After his family is slaughtered and his sister turned into a demon, Tanjiro Kamado becomes a demon slayer to find a cure for his sister and avenge his family. Beautiful art and emotional storytelling.',
                 'release_date' => '2016-02-15',
                 'cover_image' => 'manga-covers/demon-slayer.jpg',
+                'mal_id' => 106294,
             ],
             [
                 'title' => 'My Hero Academia',
@@ -74,6 +96,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'In a world where most people have superpowers called "Quirks," Izuku Midoriya dreams of becoming a hero despite being born without powers. He enrolls in U.A. High School to train as a professional hero.',
                 'release_date' => '2014-07-07',
                 'cover_image' => 'manga-covers/my-hero-academia.jpg',
+                'mal_id' => 75989,
             ],
             [
                 'title' => 'Death Note',
@@ -81,6 +104,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Light Yagami finds a mysterious notebook that can kill anyone whose name is written in it. He decides to use it to rid the world of criminals, but a brilliant detective named L is determined to stop him.',
                 'release_date' => '2003-12-01',
                 'cover_image' => 'manga-covers/death-note.jpg',
+                'mal_id' => 21,
             ],
             [
                 'title' => 'Jujutsu Kaisen',
@@ -88,6 +112,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Yuji Itadori joins his school\'s Occult Club and encounters a cursed object. When his friends are attacked, he swallows the object and becomes a vessel for a powerful curse. He must now train as a jujutsu sorcerer.',
                 'release_date' => '2018-03-05',
                 'cover_image' => 'manga-covers/jujutsu-kaisen.jpg',
+                'mal_id' => 113138,
             ],
             [
                 'title' => 'Chainsaw Man',
@@ -95,6 +120,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Denji is a young man who makes a contract with his pet devil Pochita, becoming Chainsaw Man. He joins the Public Safety Devil Hunters to fight devils and achieve his simple dream of living a normal life.',
                 'release_date' => '2018-12-03',
                 'cover_image' => 'manga-covers/chainsaw-man.jpg',
+                'mal_id' => 116778,
             ],
             [
                 'title' => 'Spy x Family',
@@ -102,6 +128,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'A spy on an undercover mission forms a fake family with an assassin and a telepath, not knowing each other\'s true identities. A heartwarming comedy about an unusual family trying to live together.',
                 'release_date' => '2019-03-25',
                 'cover_image' => 'manga-covers/spy-x-family.jpg',
+                'mal_id' => 120089,
             ],
             [
                 'title' => 'One Punch Man',
@@ -109,6 +136,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Saitama is a hero who can defeat any opponent with a single punch, but his incredible strength has left him bored and unchallenged. He seeks a worthy opponent while dealing with the mundane aspects of hero life.',
                 'release_date' => '2012-06-14',
                 'cover_image' => 'manga-covers/one-punch-man.jpg',
+                'mal_id' => 30276,
             ],
             [
                 'title' => 'Dragon Ball Z',
@@ -116,6 +144,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Goku and his friends defend Earth against powerful enemies including Saiyans, Frieza, Cell, and Majin Buu. Epic battles, transformations, and the quest for greater power define this legendary series.',
                 'release_date' => '1984-12-03',
                 'cover_image' => 'manga-covers/dragon-ball-z.jpg',
+                'mal_id' => 42,
             ],
             [
                 'title' => 'Bleach',
@@ -123,11 +152,28 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Ichigo Kurosaki gains the powers of a Soul Reaper and must protect the living world from evil spirits and guide souls to the afterlife. An action-packed series with unique sword-based combat.',
                 'release_date' => '2001-08-07',
                 'cover_image' => 'manga-covers/bleach.jpg',
+                'mal_id' => 12,
             ],
         ];
 
         foreach ($mangas as $mangaData) {
-            Manga::create($mangaData);
+            $manga = Manga::create($mangaData);
+            
+            // Download manual cover URL if provided
+            if (isset($manualCoverUrls[$manga->slug])) {
+                try {
+                    $imageContent = @file_get_contents($manualCoverUrls[$manga->slug]);
+                    if ($imageContent !== false) {
+                        $extension = pathinfo(parse_url($manualCoverUrls[$manga->slug], PHP_URL_PATH), PATHINFO_EXTENSION) ?: 'jpg';
+                        $filename = "{$manga->slug}.{$extension}";
+                        $path = "manga-covers/{$filename}";
+                        \Storage::disk('public')->put($path, $imageContent);
+                        $manga->update(['cover_image' => $path]);
+                    }
+                } catch (\Exception $e) {
+                    \Log::warning("Failed to download manual cover for {$manga->slug}: " . $e->getMessage());
+                }
+            }
         }
 
         // Create additional random mangas

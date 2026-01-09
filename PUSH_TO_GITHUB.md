@@ -98,3 +98,8 @@ https://github.com/amizer05/mangaverse
 
 **Zorg ervoor dat de repository PUBLIC is!**
 
+
+
+
+
+

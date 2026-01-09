@@ -16,6 +16,7 @@ class Manga extends Model
         'description',
         'genre',
         'release_date',
+        'mal_id',
     ];
 
     /**
@@ -82,5 +83,44 @@ class Manga extends Model
     {
         return $this->belongsToMany(User::class, 'favorites')
                     ->withTimestamps();
+    }
+
+    /**
+     * Get the cover image URL with cache busting and fallback.
+     * 
+     * @return string
+     */
+    public function getCoverImageUrlAttribute(): string
+    {
+        if (!$this->cover_image) {
+            return asset('images/default-manga-cover.svg');
+        }
+
+        $coverPath = storage_path('app/public/' . $this->cover_image);
+        
+        // Check if file exists
+        if (!file_exists($coverPath)) {
+            return asset('images/default-manga-cover.svg');
+        }
+
+        // Add cache busting with file modification time
+        $cacheBuster = filemtime($coverPath);
+        
+        return asset('storage/' . $this->cover_image) . '?v=' . $cacheBuster;
+    }
+
+    /**
+     * Check if cover image exists.
+     * 
+     * @return bool
+     */
+    public function hasCoverImage(): bool
+    {
+        if (!$this->cover_image) {
+            return false;
+        }
+
+        $coverPath = storage_path('app/public/' . $this->cover_image);
+        return file_exists($coverPath) && filesize($coverPath) > 0;
     }
 }

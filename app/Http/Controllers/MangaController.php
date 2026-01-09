@@ -15,6 +15,10 @@ class MangaController extends Controller
     {
         $query = Manga::query();
 
+        // Only show mangas with cover images
+        $query->whereNotNull('cover_image')
+              ->where('cover_image', '!=', '');
+
         // Search functionality
         if ($request->has('q') && $request->q) {
             $query->where(function($q) use ($request) {
@@ -23,19 +27,22 @@ class MangaController extends Controller
             });
         }
 
-        // Genre filter (simple string-based genre)
+        // Genre filter (genre can be comma-separated, so use LIKE)
         if ($request->filled('genre')) {
-            $query->where('genre', $request->genre);
+            $query->where(function($q) use ($request) {
+                $q->where('genre', 'like', '%' . $request->genre . '%')
+                  ->orWhere('genre', $request->genre);
+            });
         }
 
-        // Sorting
+        // Sorting - FIXED: Always have consistent ordering
         $sort = $request->get('sort', 'latest');
         switch ($sort) {
             case 'title':
-                $query->orderBy('title', 'asc');
+                $query->orderBy('title', 'asc')->orderBy('created_at', 'desc');
                 break;
             case 'oldest':
-                $query->orderBy('created_at', 'asc');
+                $query->orderBy('created_at', 'asc')->orderBy('title', 'asc');
                 break;
             case 'popular':
                 // Order by popularity (number of published chapters)
@@ -43,11 +50,15 @@ class MangaController extends Controller
                 break;
             case 'latest':
             default:
-                $query->latest();
+                $query->orderBy('created_at', 'desc')->orderBy('title', 'asc');
                 break;
         }
 
+        // Get pagination with query string preserved
         $mangas = $query->paginate(12)->withQueryString();
+        
+        // Ensure all query parameters are preserved in pagination links
+        $mangas->appends($request->except('page'));
 
         return view('mangas.index-public', compact('mangas'));
     }

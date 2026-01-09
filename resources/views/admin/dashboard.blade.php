@@ -16,19 +16,19 @@
                 </h1>
                 <p class="text-gray-400">Manage your website content and users</p>
             </div>
-            <a href="{{ route('dashboard') }}" class="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 flex items-center">
+            <a href="{{ route('home') }}" class="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 flex items-center">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                 </svg>
-                Back to Dashboard
+                Back to Website
             </a>
         </div>
 
         <!-- Statistics Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div class="bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl p-6 shadow-xl border border-blue-500/50">
+            <a href="{{ route('admin.users.index') }}" class="bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl p-6 shadow-xl border border-blue-500/50 hover:border-blue-400 hover:shadow-2xl transition-all duration-200 cursor-pointer group">
                 <div class="flex items-center justify-between mb-4">
-                    <div class="bg-white/20 p-3 rounded-lg">
+                    <div class="bg-white/20 p-3 rounded-lg group-hover:bg-white/30 transition-colors">
                         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                         </svg>
@@ -37,11 +37,11 @@
                 <p class="text-blue-100 text-sm font-medium">Total Users</p>
                 <p class="text-white text-4xl font-bold mt-2">{{ $totalUsers ?? 0 }}</p>
                 <p class="text-blue-200 text-xs mt-2">+{{ $newUsersThisMonth ?? 0 }} this month</p>
-            </div>
+            </a>
 
-            <div class="bg-gradient-to-br from-purple-600 to-purple-800 rounded-xl p-6 shadow-xl border border-purple-500/50">
+            <a href="{{ route('admin.news.index') }}" class="bg-gradient-to-br from-purple-600 to-purple-800 rounded-xl p-6 shadow-xl border border-purple-500/50 hover:border-purple-400 hover:shadow-2xl transition-all duration-200 cursor-pointer group">
                 <div class="flex items-center justify-between mb-4">
-                    <div class="bg-white/20 p-3 rounded-lg">
+                    <div class="bg-white/20 p-3 rounded-lg group-hover:bg-white/30 transition-colors">
                         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
                         </svg>
@@ -49,12 +49,12 @@
                 </div>
                 <p class="text-purple-100 text-sm font-medium">News Articles</p>
                 <p class="text-white text-4xl font-bold mt-2">{{ $totalNews ?? 0 }}</p>
-                <p class="text-purple-200 text-xs mt-2">{{ $publishedNews ?? 0 }} published</p>
-            </div>
+                <p class="text-purple-200 text-xs mt-2">{{ $publishedNews ?? 0 }} published{{ isset($draftNews) && $draftNews > 0 ? ', ' . $draftNews . ' draft' : '' }}</p>
+            </a>
 
-            <div class="bg-gradient-to-br from-green-600 to-green-800 rounded-xl p-6 shadow-xl border border-green-500/50">
+            <a href="{{ route('admin.faq-items.index') }}" class="bg-gradient-to-br from-green-600 to-green-800 rounded-xl p-6 shadow-xl border border-green-500/50 hover:border-green-400 hover:shadow-2xl transition-all duration-200 cursor-pointer group">
                 <div class="flex items-center justify-between mb-4">
-                    <div class="bg-white/20 p-3 rounded-lg">
+                    <div class="bg-white/20 p-3 rounded-lg group-hover:bg-white/30 transition-colors">
                         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
@@ -63,20 +63,23 @@
                 <p class="text-green-100 text-sm font-medium">FAQ Items</p>
                 <p class="text-white text-4xl font-bold mt-2">{{ $totalFaqs ?? 0 }}</p>
                 <p class="text-green-200 text-xs mt-2">{{ $faqCategories ?? 0 }} categories</p>
-            </div>
+            </a>
 
-            <div class="bg-gradient-to-br from-orange-600 to-red-600 rounded-xl p-6 shadow-xl border border-orange-500/50">
+            <a href="{{ route('admin.contacts.index') }}" class="bg-gradient-to-br from-orange-600 to-red-600 rounded-xl p-6 shadow-xl border border-orange-500/50 hover:border-orange-400 hover:shadow-2xl transition-all duration-200 cursor-pointer group relative">
                 <div class="flex items-center justify-between mb-4">
-                    <div class="bg-white/20 p-3 rounded-lg">
+                    <div class="bg-white/20 p-3 rounded-lg group-hover:bg-white/30 transition-colors">
                         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                         </svg>
                     </div>
+                    @if(($unreadContacts ?? 0) > 0)
+                        <span class="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full animate-pulse">{{ $unreadContacts }}</span>
+                    @endif
                 </div>
                 <p class="text-orange-100 text-sm font-medium">Contact Messages</p>
                 <p class="text-white text-4xl font-bold mt-2">{{ $totalContacts ?? 0 }}</p>
                 <p class="text-orange-200 text-xs mt-2">{{ $unreadContacts ?? 0 }} unread</p>
-            </div>
+            </a>
         </div>
 
         <!-- Quick Actions -->
@@ -221,13 +224,13 @@
                 @if($recentUsers && $recentUsers->count() > 0)
                     <div class="space-y-3">
                         @foreach($recentUsers as $user)
-                            <div class="flex items-center justify-between p-4 bg-gray-900/50 rounded-lg hover:bg-gray-900/70 transition-all">
+                            <a href="{{ route('admin.users.show', $user->id) }}" class="flex items-center justify-between p-4 bg-gray-900/50 rounded-lg hover:bg-gray-900/70 transition-all cursor-pointer">
                                 <div class="flex items-center space-x-4">
                                     @if($user->profile_photo_path)
-                                        <img src="{{ asset('storage/' . $user->profile_photo_path) }}" alt="{{ $user->username }}" class="w-12 h-12 rounded-full object-cover">
+                                        <img src="{{ asset('storage/' . $user->profile_photo_path) }}" alt="{{ $user->username ?? $user->name }}" class="w-12 h-12 rounded-full object-cover">
                                     @else
                                         <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center">
-                                            <span class="text-white text-lg font-bold">{{ substr($user->username ?? $user->name, 0, 1) }}</span>
+                                            <span class="text-white text-lg font-bold">{{ strtoupper(substr($user->username ?? $user->name ?? 'U', 0, 1)) }}</span>
                                         </div>
                                     @endif
                                     <div>
@@ -238,10 +241,12 @@
                                 <div class="flex items-center space-x-2">
                                     @if($user->is_admin)
                                         <span class="bg-yellow-500/20 text-yellow-400 text-xs font-semibold px-3 py-1 rounded-full border border-yellow-500/30">Admin</span>
+                                    @else
+                                        <span class="bg-blue-500/20 text-blue-400 text-xs font-semibold px-3 py-1 rounded-full border border-blue-500/30">User</span>
                                     @endif
                                     <span class="text-gray-500 text-xs">{{ $user->created_at->diffForHumans() }}</span>
                                 </div>
-                            </div>
+                            </a>
                         @endforeach
                     </div>
                 @else
@@ -264,17 +269,18 @@
                 @if($recentContacts && $recentContacts->count() > 0)
                     <div class="space-y-3">
                         @foreach($recentContacts as $contact)
-                            <a href="{{ route('admin.contacts.show', $contact->id) }}" class="block p-4 bg-gray-900/50 rounded-lg hover:bg-gray-900/70 transition-all border border-gray-700/30">
+                            <a href="{{ route('admin.contacts.show', $contact->id) }}" class="block p-4 bg-gray-900/50 rounded-lg hover:bg-gray-900/70 transition-all border border-gray-700/30 relative">
                                 <div class="flex items-start justify-between mb-2">
                                     <div class="flex-1">
                                         <p class="text-white font-medium">{{ $contact->name }}</p>
                                         <p class="text-gray-400 text-sm">{{ $contact->email }}</p>
                                     </div>
                                     @if(!$contact->is_read)
-                                        <span class="bg-red-500 w-3 h-3 rounded-full"></span>
+                                        <span class="bg-red-500 w-3 h-3 rounded-full animate-pulse"></span>
                                     @endif
                                 </div>
-                                <p class="text-gray-300 text-sm line-clamp-2">{{ $contact->message }}</p>
+                                <p class="text-gray-300 text-sm font-medium mb-1">{{ $contact->subject }}</p>
+                                <p class="text-gray-400 text-sm line-clamp-2">{{ Str::limit($contact->message, 100) }}</p>
                                 <p class="text-gray-500 text-xs mt-2">{{ $contact->created_at->diffForHumans() }}</p>
                             </a>
                         @endforeach

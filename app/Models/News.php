@@ -24,6 +24,14 @@ class News extends Model
     }
 
     /**
+     * Get the user who created the news article (if user_id exists).
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
      * Get the comments for the news article.
      */
     public function comments()

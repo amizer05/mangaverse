@@ -82,3 +82,8 @@ Controleer:
 - ✅ `.env` is **NIET** zichtbaar
 - ✅ Repository is **PUBLIC**
 
+
+
+
+
+

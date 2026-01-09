@@ -13,6 +13,17 @@
 /.zed
 /auth.json
 /node_modules
+
+# Screencast and internal documentation (not for teacher)
+SCREENCAST_SCRIPT.md
+SCREENCAST_QUICK_REFERENCE.md
+REQUIREMENTS_CHECKLIST.md
+REQUIREMENTS_CHECK.md
+IMAGE_LOADING_OPTIONS.md
+IMAGE_FIX_SUMMARY.md
+IMAGE_API_IMPLEMENTATION.md
+CHANGES_SINCE_LAST_PUSH.md
+SUCCESS.md
 /public/build
 /public/hot
 /public/storage

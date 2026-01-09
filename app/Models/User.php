@@ -87,6 +87,22 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the news articles created by the user (if user_id exists in news table).
+     */
+    public function news()
+    {
+        return $this->hasMany(News::class);
+    }
+
+    /**
+     * Get the contacts submitted by the user (if user_id exists in contacts table).
+     */
+    public function contacts()
+    {
+        return $this->hasMany(Contact::class);
+    }
+
+    /**
      * Get the user's full profile photo URL.
      */
     public function getProfilePhotoUrlAttribute()

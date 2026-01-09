@@ -179,7 +179,8 @@ mangaverse/
 
 ✅ **Contact Pagina**
 - Contactformulier voor bezoekers
-- Email notificatie naar admin bij verzending
+- Email notificatie naar admin@ehb.be bij verzending
+- Admins kunnen contactformulieren bekijken en beantwoorden via admin panel
 
 ### Extra Features
 
@@ -233,6 +234,9 @@ mangaverse/
 
 **Relationships:**
 - **One-to-Many:**
+  - User → News (if user_id exists)
+  - User → NewsComments
+  - User → Contacts (if user_id exists)
   - Manga → Chapters
   - Chapter → ChapterPages
   - FaqCategory → FaqItems

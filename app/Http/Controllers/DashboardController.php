@@ -11,6 +11,7 @@ use App\Models\Contact;
 use App\Models\FaqItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class DashboardController extends Controller
 {
@@ -21,9 +22,16 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
         
-        // Get statistics for the user
-        $profileViews = $user->profile_views ?? 0;
-        $commentsCount = NewsComment::where('user_id', $user->id)->count();
+        // Cache user statistics for 2 minutes
+        $cacheKey = 'user_dashboard_stats_' . $user->id;
+        $stats = Cache::remember($cacheKey, 120, function () use ($user) {
+            return [
+                'profileViews' => $user->profile_views ?? 0,
+                'commentsCount' => NewsComment::where('user_id', $user->id)->count(),
+                'favoritesCount' => $user->favorites()->count(),
+                'memberSince' => $user->created_at,
+            ];
+        });
         
         // Get latest news (limit to 5)
         $latestNews = News::whereNotNull('published_at')
@@ -32,11 +40,16 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
         
-        return view('dashboard.index', compact(
-            'profileViews',
-            'commentsCount',
-            'latestNews'
-        ));
+        // Get recent favorites (limit to 4)
+        $recentFavorites = $user->favorites()
+            ->latest('favorites.created_at')
+            ->limit(4)
+            ->get();
+        
+        return view('dashboard.index', array_merge($stats, [
+            'latestNews' => $latestNews,
+            'recentFavorites' => $recentFavorites,
+        ]));
     }
 
     /**
@@ -49,26 +62,31 @@ class DashboardController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        // Get statistics
-        $totalUsers = User::count();
-        $newUsersThisMonth = User::whereYear('created_at', now()->year)
-            ->whereMonth('created_at', now()->month)
-            ->count();
+        // Cache statistics for 5 minutes to improve performance
+        $cacheKey = 'admin_dashboard_stats';
+        $stats = \Cache::remember($cacheKey, 300, function () {
+            return [
+                'totalUsers' => User::count(),
+                'newUsersThisMonth' => User::whereYear('created_at', now()->year)
+                    ->whereMonth('created_at', now()->month)
+                    ->count(),
+                'totalNews' => News::count(),
+                'publishedNews' => News::whereNotNull('published_at')
+                    ->where('published_at', '<=', now())
+                    ->count(),
+                'draftNews' => News::whereNull('published_at')
+                    ->orWhere('published_at', '>', now())
+                    ->count(),
+                'totalFaqs' => FaqItem::count(),
+                'faqCategories' => \App\Models\FaqCategory::count(),
+                'totalContacts' => Contact::count(),
+                'unreadContacts' => Contact::where('is_read', false)->count(),
+            ];
+        });
 
-        $totalNews = News::count();
-        $publishedNews = News::whereNotNull('published_at')
-            ->where('published_at', '<=', now())
-            ->count();
-
-        $totalFaqs = FaqItem::count();
-        $faqCategories = \App\Models\FaqCategory::count();
-
-        $totalContacts = Contact::count();
-        $unreadContacts = Contact::where('is_read', false)->count();
-
-        // Get recent users (limit to 5)
+        // Get recent users (limit to 4 for display)
         $recentUsers = User::orderBy('created_at', 'desc')
-            ->limit(5)
+            ->limit(4)
             ->get();
 
         // Get recent contact messages (limit to 5)
@@ -76,18 +94,10 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
-        return view('admin.dashboard', compact(
-            'totalUsers',
-            'newUsersThisMonth',
-            'totalNews',
-            'publishedNews',
-            'totalFaqs',
-            'faqCategories',
-            'totalContacts',
-            'unreadContacts',
-            'recentUsers',
-            'recentContacts'
-        ));
+        return view('admin.dashboard', array_merge($stats, [
+            'recentUsers' => $recentUsers,
+            'recentContacts' => $recentContacts,
+        ]));
     }
 }
 

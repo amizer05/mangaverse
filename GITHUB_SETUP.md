@@ -136,3 +136,8 @@ php artisan serve
 
 Als dit werkt, ben je klaar! 🎉
 
+
+
+
+
+

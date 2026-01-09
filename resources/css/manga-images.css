@@ -1,0 +1,52 @@
+/* Manga Cover Image Styles */
+.manga-cover-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border-radius: 0.75rem;
+}
+
+.manga-cover-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.5s ease;
+}
+
+.manga-cover-image:hover {
+    transform: scale(1.1);
+}
+
+/* Loading state */
+.manga-cover-image[loading="lazy"] {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.manga-cover-image[loading="lazy"].loaded {
+    opacity: 1;
+}
+
+/* Error state fallback */
+.manga-cover-image[src*="default-manga-cover"] {
+    object-fit: contain;
+    padding: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .manga-cover-container {
+        aspect-ratio: 2/3;
+    }
+}
+
+/* Ensure images maintain aspect ratio */
+img.manga-cover-image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+

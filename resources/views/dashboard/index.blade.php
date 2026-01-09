@@ -42,29 +42,31 @@
                 </div>
             </div>
 
-            <div class="bg-gradient-to-br from-green-600 to-teal-600 rounded-xl p-6 shadow-xl">
-                <div>
-                    <p class="text-green-100 text-sm">Member Since</p>
-                    <p class="text-white text-xl font-bold mt-1">{{ auth()->user()->created_at->format('M Y') }}</p>
+            <a href="{{ route('favorites.index') }}" class="bg-gradient-to-br from-green-600 to-teal-600 rounded-xl p-6 shadow-xl hover:shadow-2xl transition-all duration-200 cursor-pointer group">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-green-100 text-sm">Favorite Manga</p>
+                        <p class="text-white text-3xl font-bold mt-1">{{ $favoritesCount ?? 0 }}</p>
+                    </div>
+                    <div class="bg-white/20 p-3 rounded-lg group-hover:bg-white/30 transition-colors">
+                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                        </svg>
+                    </div>
                 </div>
-            </div>
+            </a>
 
             <div class="bg-gradient-to-br from-orange-600 to-red-600 rounded-xl p-6 shadow-xl">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-orange-100 text-sm">Account Type</p>
-                        <p class="text-white text-xl font-bold mt-1">
-                            @if(auth()->user()->is_admin)
-                                <span class="flex items-center">
-                                    <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                                    </svg>
-                                    Admin
-                                </span>
-                            @else
-                                User
-                            @endif
-                        </p>
+                        <p class="text-orange-100 text-sm">Member Since</p>
+                        <p class="text-white text-xl font-bold mt-1">{{ $memberSince->format('M Y') }}</p>
+                        <p class="text-orange-200 text-xs mt-1">{{ $memberSince->diffForHumans() }}</p>
+                    </div>
+                    <div class="bg-white/20 p-3 rounded-lg">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
                     </div>
                 </div>
             </div>
@@ -108,10 +110,17 @@
                         </div>
 
                         <div class="mt-6 space-y-3">
-                            <a href="{{ route('profile.edit') }}" class="block w-full text-center bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                            <a href="{{ route('profile.edit') }}" class="block w-full text-center bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                </svg>
                                 Edit Profile
                             </a>
-                            <a href="{{ route('profile.show', auth()->user()->id) }}" class="block w-full text-center bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200">
+                            <a href="{{ route('users.show', auth()->user()->username ?: auth()->user()->id) }}" class="block w-full text-center bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 flex items-center justify-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
                                 View Public Profile
                             </a>
                         </div>
@@ -191,6 +200,44 @@
                     @endif
                 </div>
 
+                <!-- Recent Favorites -->
+                @if($recentFavorites && $recentFavorites->count() > 0)
+                <div class="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-xl border border-gray-700/50 p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-bold text-white flex items-center">
+                            <svg class="w-7 h-7 mr-2 text-pink-500" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                            </svg>
+                            Recent Favorites
+                        </h3>
+                        <a href="{{ route('favorites.index') }}" class="text-pink-400 hover:text-pink-300 text-sm font-semibold flex items-center">
+                            View All
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        @foreach($recentFavorites as $manga)
+                        <a href="{{ route('mangas.public.show', $manga->slug) }}" class="group cursor-pointer">
+                            <div class="aspect-[3/4] bg-gray-900 rounded-lg overflow-hidden border border-gray-700 group-hover:border-pink-500/50 transition-all duration-200 relative">
+                                @php
+                                    $coverPath = storage_path('app/public/' . $manga->cover_image);
+                                    $cacheBuster = file_exists($coverPath) ? filemtime($coverPath) : time();
+                                @endphp
+                                <img src="{{ asset('storage/' . $manga->cover_image) }}?v={{ $cacheBuster }}" 
+                                     alt="{{ $manga->title }}" 
+                                     class="w-full h-full object-cover"
+                                     loading="lazy"
+                                     onerror="this.onerror=null; this.src='{{ asset('images/default-manga-cover.svg') }}'">
+                            </div>
+                            <p class="text-sm text-gray-400 mt-2 line-clamp-1 group-hover:text-pink-400 transition-colors">{{ $manga->title }}</p>
+                        </a>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
+
                 <!-- Quick Actions -->
                 <div class="bg-gray-800/50 backdrop-blur-sm rounded-xl shadow-xl border border-gray-700/50 p-6">
                     <h3 class="text-2xl font-bold text-white mb-6 flex items-center">
@@ -199,7 +246,14 @@
                         </svg>
                         Quick Actions
                     </h3>
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <a href="{{ route('mangas.public.index') }}" class="flex flex-col items-center justify-center p-6 bg-gradient-to-br from-indigo-600/20 to-indigo-800/20 hover:from-indigo-600/30 hover:to-indigo-800/30 rounded-xl border border-indigo-500/30 transition-all duration-200 group">
+                            <svg class="w-10 h-10 text-indigo-400 mb-3 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                            <span class="text-white font-semibold text-sm">Browse Manga</span>
+                        </a>
+
                         <a href="{{ route('news.public.index') }}" class="flex flex-col items-center justify-center p-6 bg-gradient-to-br from-blue-600/20 to-blue-800/20 hover:from-blue-600/30 hover:to-blue-800/30 rounded-xl border border-blue-500/30 transition-all duration-200 group">
                             <svg class="w-10 h-10 text-blue-400 mb-3 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
@@ -219,13 +273,6 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                             </svg>
                             <span class="text-white font-semibold text-sm">Contact</span>
-                        </a>
-
-                        <a href="{{ route('favorites.index') }}" class="flex flex-col items-center justify-center p-6 bg-gradient-to-br from-pink-600/20 to-rose-800/20 hover:from-pink-600/30 hover:to-rose-800/30 rounded-xl border border-pink-500/30 transition-all duration-200 group">
-                            <svg class="w-10 h-10 text-pink-400 mb-3 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
-                            </svg>
-                            <span class="text-white font-semibold text-sm">My Favorites</span>
                         </a>
                     </div>
                 </div>

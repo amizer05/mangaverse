@@ -56,3 +56,8 @@ cd /Users/aminezerouali/Herd/mangaverse
 
 Dit script helpt je door het hele proces!
 
+
+
+
+
+
